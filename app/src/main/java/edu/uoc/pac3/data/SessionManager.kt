@@ -6,10 +6,11 @@ import android.content.Context
  * Created by alex on 06/09/2020.
  */
 
-class SessionManager(context: Context) {
+class SessionManager(private val context: Context) {
 
     fun isUserAvailable(): Boolean {
         // TODO: Implement
+
         return false
     }
 
@@ -19,7 +20,7 @@ class SessionManager(context: Context) {
     }
 
     fun saveAccessToken(accessToken: String) {
-        TODO("Save Access Token")
+        // TODO("Save Access Token")
     }
 
     fun clearAccessToken() {
@@ -31,11 +32,10 @@ class SessionManager(context: Context) {
     }
 
     fun saveRefreshToken(refreshToken: String) {
-        TODO("Save Refresh Token")
+        // TODO("Save Refresh Token")
     }
 
     fun clearRefreshToken() {
         TODO("Clear Refresh Token")
     }
-
 }
