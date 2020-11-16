@@ -16,4 +16,5 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="darkGray">#333333</color>
 </resources>
