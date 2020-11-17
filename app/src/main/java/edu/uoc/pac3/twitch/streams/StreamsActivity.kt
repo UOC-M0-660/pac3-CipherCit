@@ -11,7 +11,6 @@ import edu.uoc.pac3.data.network.Network
 import edu.uoc.pac3.data.oauth.UnauthorizedException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class StreamsActivity : AppCompatActivity() {
 
@@ -26,17 +25,17 @@ class StreamsActivity : AppCompatActivity() {
         val httpClient = Network.createHttpClient(this)
         val twitchService = TwitchApiService(httpClient)
 
-        Dispatchers.IO.run {
-            runBlocking {
-                try {
-                    val streamsResponse = twitchService.getStreams(SessionManager(this@StreamsActivity).getAccessToken()!!)
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val streamsResponse = twitchService.getStreams(SessionManager(this@StreamsActivity).getAccessToken()!!)
 
-                    if (streamsResponse != null) {
+                if (streamsResponse != null) {
+                    runOnUiThread {
                         (findViewById<RecyclerView>(R.id.recyclerView).adapter as StreamsAdapter).setStreams(streamsResponse.data)
                     }
-                }catch (e: UnauthorizedException) {
-                    // ??
                 }
+            }catch (e: UnauthorizedException) {
+                // ??
             }
         }
     }

@@ -7,6 +7,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import edu.uoc.pac3.R
 import edu.uoc.pac3.data.SessionManager
 import edu.uoc.pac3.data.TwitchApiService
@@ -15,7 +16,7 @@ import edu.uoc.pac3.data.network.Network
 import edu.uoc.pac3.data.oauth.OAuthConstants
 import kotlinx.android.synthetic.main.activity_oauth.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 class OAuthActivity : AppCompatActivity() {
 
@@ -71,16 +72,14 @@ class OAuthActivity : AppCompatActivity() {
         val httpClient = Network.createHttpClient(this)
         val twitchService = TwitchApiService(httpClient)
 
-        Dispatchers.IO.run {
-            runBlocking {
-                val tokensResponse = twitchService.getTokens(authorizationCode)
+        lifecycleScope.launch(Dispatchers.IO){
+            val tokensResponse = twitchService.getTokens(authorizationCode)
 
-                if (tokensResponse != null) {
-                    val sessionManager = SessionManager(applicationContext)
-                    // Save tokens
-                    sessionManager.saveAccessToken(tokensResponse.accessToken)
-                    sessionManager.saveRefreshToken(tokensResponse.refreshToken ?: "")
-                }
+            if (tokensResponse != null) {
+                val sessionManager = SessionManager(applicationContext)
+                // Save tokens
+                sessionManager.saveAccessToken(tokensResponse.accessToken)
+                sessionManager.saveRefreshToken(tokensResponse.refreshToken ?: "")
             }
         }
     }
