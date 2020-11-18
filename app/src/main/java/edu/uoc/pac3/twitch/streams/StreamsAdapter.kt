@@ -35,8 +35,15 @@ class StreamsAdapter(private var streams: List<Stream>): RecyclerView.Adapter<St
     }
   }
 
-  fun setStreams(streams: List<Stream>?) {
-    this.streams = streams ?: listOf()
+  fun addStreams(streams: List<Stream>?) {
+    if (this.streams.isEmpty()) {
+      this.streams = streams ?: listOf()
+    } else {
+      val currentStreams = this.streams.toMutableList()
+      currentStreams.addAll(streams ?: listOf())
+      this.streams = currentStreams
+    }
+
     notifyDataSetChanged()
   }
 
