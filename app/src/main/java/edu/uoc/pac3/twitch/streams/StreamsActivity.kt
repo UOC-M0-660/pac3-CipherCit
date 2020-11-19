@@ -1,6 +1,9 @@
 package edu.uoc.pac3.twitch.streams
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +13,7 @@ import edu.uoc.pac3.data.SessionManager
 import edu.uoc.pac3.data.TwitchApiService
 import edu.uoc.pac3.data.network.Network
 import edu.uoc.pac3.data.oauth.UnauthorizedException
+import edu.uoc.pac3.twitch.profile.ProfileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -71,4 +75,14 @@ class StreamsActivity : AppCompatActivity() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.streams_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // we have only one option
+        startActivity(Intent(this, ProfileActivity::class.java))
+        return true
+    }
 }
