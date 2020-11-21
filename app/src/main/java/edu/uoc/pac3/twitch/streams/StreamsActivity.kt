@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.uoc.pac3.R
-import edu.uoc.pac3.data.SessionManager
 import edu.uoc.pac3.data.TwitchApiService
 import edu.uoc.pac3.data.network.Network
 import edu.uoc.pac3.data.oauth.UnauthorizedException
+import edu.uoc.pac3.oauth.LoginActivity
 import edu.uoc.pac3.twitch.profile.ProfileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,18 +42,24 @@ class StreamsActivity : AppCompatActivity() {
         isLoading = true
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val streamsResponse = twitchService!!.getStreams(withCursor, SessionManager(this@StreamsActivity).getAccessToken()!!)
+                val streamsResponse = twitchService!!.getStreams(withCursor)
 
                 if (streamsResponse != null) {
                     paginationCursor = streamsResponse.pagination?.cursor
                     runOnUiThread {
                         (findViewById<RecyclerView>(R.id.recyclerView).adapter as StreamsAdapter).addStreams(streamsResponse.data)
                     }
+                } else {
+                    startActivity(Intent(this@StreamsActivity, LoginActivity::class.java))
+                    this@StreamsActivity.finish()
                 }
 
                 isLoading = false
             }catch (e: UnauthorizedException) {
                 isLoading = false
+                // Error loading streams, back to Login Activity
+                startActivity(Intent(this@StreamsActivity, LoginActivity::class.java))
+                this@StreamsActivity.finish()
             }
         }
     }

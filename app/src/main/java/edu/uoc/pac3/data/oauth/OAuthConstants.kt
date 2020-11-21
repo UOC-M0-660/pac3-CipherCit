@@ -5,7 +5,6 @@ package edu.uoc.pac3.data.oauth
  */
 object OAuthConstants {
 
-    // TODO: Set OAuth2 Variables
     const val clientId = "hcxrwbciex1jvenhqd9nq6cdvm3kuu"
     const val clientSecret = "ky2fdxf34kv293e3fxumv3c23wpt6s"
     const val redirectHost = "localhost"

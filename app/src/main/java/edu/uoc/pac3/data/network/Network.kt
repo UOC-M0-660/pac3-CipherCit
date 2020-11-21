@@ -26,7 +26,6 @@ object Network {
             defaultRequest {
                 accept(ContentType.Application.Json)
             }
-            // TODO: Setup HttpClient
         }
     }
 }

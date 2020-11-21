@@ -1,5 +1,6 @@
 package edu.uoc.pac3.oauth
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -14,6 +15,7 @@ import edu.uoc.pac3.data.TwitchApiService
 import edu.uoc.pac3.data.network.Endpoints
 import edu.uoc.pac3.data.network.Network
 import edu.uoc.pac3.data.oauth.OAuthConstants
+import edu.uoc.pac3.twitch.streams.StreamsActivity
 import kotlinx.android.synthetic.main.activity_oauth.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,6 +82,8 @@ class OAuthActivity : AppCompatActivity() {
                 // Save tokens
                 sessionManager.saveAccessToken(tokensResponse.accessToken)
                 sessionManager.saveRefreshToken(tokensResponse.refreshToken ?: "")
+                startActivity(Intent(this@OAuthActivity, StreamsActivity::class.java))
+                finish()
             }
         }
     }

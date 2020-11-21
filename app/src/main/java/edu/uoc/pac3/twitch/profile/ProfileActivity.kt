@@ -29,7 +29,7 @@ class ProfileActivity : AppCompatActivity() {
         val twitchService = TwitchApiService(httpClient)
 
         lifecycleScope.launch(Dispatchers.IO){
-            val user = twitchService.getUser(SessionManager(this@ProfileActivity).getAccessToken())
+            val user = twitchService.getUser()
 
             if(user != null) {
                 updateUI(user)
@@ -43,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.updateDescriptionButton).setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO){
                 val newDescription = findViewById<TextInputEditText>(R.id.userDescriptionEditText).text.toString()
-                val user = twitchService.updateUserDescription(newDescription, SessionManager(this@ProfileActivity).getAccessToken())
+                val user = twitchService.updateUserDescription(newDescription)
 
                 if(user != null) {
                     updateUI(user)
