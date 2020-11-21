@@ -25,6 +25,7 @@ class Ex4Test : TwitchTest() {
     fun retrievesNextPageOfStreams() {
         runBlocking {
             val firstStreams = twitchService.getStreams()
+            // commented to avoid test compilation fail
             val cursor = firstStreams?.pagination?.cursor
             assert(cursor != null) {
                 "Cursor must not be null"
